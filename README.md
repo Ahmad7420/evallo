@@ -1,6 +1,6 @@
 # Log Ingestion and Querying System
 
-A full-stack application for ingesting and querying logs, built with Node.js, Express, TypeScript, MongoDB Atlas, Next.js, Shadcn UI, and Formik. This project fulfills the requirements of the Full-Stack Developer Assessment, providing a backend API for log ingestion and querying, and a frontend interface for submitting and filtering logs.
+A full-stack application for ingesting and querying logs, built with Node.js, Express, TypeScript, Next.js, Shadcn UI, and Formik. This project fulfills the requirements of the Full-Stack Developer Assessment, providing a backend API for log ingestion and querying, and a frontend interface for submitting and filtering logs.
 
 ## Project Structure
 
@@ -9,7 +9,6 @@ log-ingestion-system/├── backend/ # Node.js/Express/TypeScript backend├�
 ## Prerequisites
 
 - **Node.js**: v18 or higher
-- **MongoDB Atlas**: A free cluster with a database named `logs`
 - **Git**: For cloning the repository
 - **NPM**: For installing dependencies
 
@@ -21,8 +20,6 @@ log-ingestion-system/├── backend/ # Node.js/Express/TypeScript backend├�
    cd log_ingestion_be
 
 Install dependencies:npm install
-
-Create a .env file in the backend directory with your MongoDB Atlas URI:MONGODB_URI=mongodb+srv://ahmadabdulrahman6:JgBLeDYQo2AYAgtg@expense.snmjfj1.mongodb.net/logdb?retryWrites=true&w=majority&appName=expense
 
 Run the backend in development mode (with auto-restart using Nodemon):npm start
 
@@ -58,7 +55,6 @@ Test the backend API directly using a tool like Postman:curl -X POST http://loca
 
 Design Decisions
 
-MongoDB Atlas: Chosen over a JSON file for scalable persistence, leveraging Mongoose for schema validation and efficient querying.
 Node.js/Express with TypeScript: Provides a robust backend with type safety, ensuring reliable API endpoints (POST /logs and GET /logs).
 Next.js App Router: Used for the frontend to enable modern routing and server-side rendering for fast initial loads.
 Shadcn UI with Tailwind CSS: Provides accessible, customizable components for a clean, professional UI, inspired by tools like Grafana Loki.
@@ -69,7 +65,6 @@ Log Ingestion UI: Added a form to submit logs via the frontend, making the POST 
 
 Trade-offs
 
-MongoDB Atlas vs. JSON File: MongoDB Atlas adds an external dependency but offers better scalability and querying capabilities compared to the assessment’s JSON file requirement.
 No Debouncing: Removed debouncing for the message search input to simplify the codebase, resulting in immediate API calls on input change, which may increase server load for rapid typing.
 Custom Hooks: The useLogs and useCreateLog hooks add slight complexity but improve maintainability compared to inline useEffect.
 Desktop Focus: Full mobile responsiveness was not implemented, as the requirement prioritizes desktop browsers.
