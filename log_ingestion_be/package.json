@@ -19,7 +19,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@types/mongoose": "^5.11.96",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "yup": "^1.6.1"
