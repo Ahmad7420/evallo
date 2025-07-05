@@ -1,103 +1,275 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/LogTable";
+import { useLogs } from "@/lib/useLogs";
+import { useCreateLog } from "@/lib/useCreateLog";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [level, setLevel] = useState("");
+  const [message, setMessage] = useState("");
+  const [resourceId, setResourceId] = useState("");
+  const [timestampStart, setTimestampStart] = useState("");
+  const [timestampEnd, setTimestampEnd] = useState("");
+  const [newLog, setNewLog] = useState({
+    level: "",
+    message: "",
+    resourceId: "",
+    traceId: "",
+    spanId: "",
+    commit: "",
+    metadata: { parentResourceId: "" },
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const {
+    logs,
+    loading: logsLoading,
+    error: logsError,
+  } = useLogs({
+    level,
+    message,
+    resourceId,
+    timestampStart,
+    timestampEnd,
+  });
+
+  const {
+    createLog,
+    loading: createLoading,
+    error: createError,
+  } = useCreateLog();
+
+  const handleClearFilters = () => {
+    setLevel("");
+    setMessage("");
+    setResourceId("");
+    setTimestampStart("");
+    setTimestampEnd("");
+  };
+
+  const handleLogSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newLog.level || !newLog.message) {
+      alert("Level and message are required");
+      return;
+    }
+
+    const result = await createLog(newLog);
+    if (result.success) {
+      setNewLog({
+        level: "",
+        message: "",
+        resourceId: "",
+        traceId: "",
+        spanId: "",
+        commit: "",
+        metadata: { parentResourceId: "" },
+      });
+      // Trigger a refresh of logs by resetting filters or re-fetching
+      setMessage(""); // This will trigger useLogs to refresh
+    }
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-800">
+        Log Query Interface
+      </h1>
+
+      {/* Log Ingestion Form */}
+      <section className="mb-10 bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold mb-6 text-gray-700">
+          Add New Log
+        </h2>
+        <form
+          onSubmit={handleLogSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div>
+            <Label htmlFor="new-level" className="mb-1 block">
+              Level
+            </Label>
+            <Select
+              value={newLog.level}
+              onValueChange={(value) => setNewLog({ ...newLog, level: value })}
+            >
+              <SelectTrigger id="new-level" className="w-full">
+                <SelectValue placeholder="Select level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="error">Error</SelectItem>
+                <SelectItem value="warning">Warning</SelectItem>
+                <SelectItem value="info">Info</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label htmlFor="new-message" className="mb-1 block">
+              Message
+            </Label>
+            <Input
+              id="new-message"
+              placeholder="Enter message..."
+              value={newLog.message}
+              onChange={(e) =>
+                setNewLog({ ...newLog, message: e.target.value })
+              }
+              className="w-full"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <div>
+            <Label htmlFor="new-resourceId" className="mb-1 block">
+              Resource ID
+            </Label>
+            <Input
+              id="new-resourceId"
+              placeholder="Enter resource ID..."
+              value={newLog.resourceId}
+              onChange={(e) =>
+                setNewLog({ ...newLog, resourceId: e.target.value })
+              }
+              className="w-full"
+            />
+          </div>
+          <div>
+            <Label htmlFor="new-traceId" className="mb-1 block">
+              Trace ID
+            </Label>
+            <Input
+              id="new-traceId"
+              placeholder="Enter trace ID..."
+              value={newLog.traceId}
+              onChange={(e) =>
+                setNewLog({ ...newLog, traceId: e.target.value })
+              }
+              className="w-full"
+            />
+          </div>
+          <div>
+            <Label htmlFor="new-spanId" className="mb-1 block">
+              Span ID
+            </Label>
+            <Input
+              id="new-spanId"
+              placeholder="Enter span ID..."
+              value={newLog.spanId}
+              onChange={(e) => setNewLog({ ...newLog, spanId: e.target.value })}
+              className="w-full"
+            />
+          </div>
+          <div>
+            <Label htmlFor="new-commit" className="mb-1 block">
+              Commit
+            </Label>
+            <Input
+              id="new-commit"
+              placeholder="Enter commit..."
+              value={newLog.commit}
+              onChange={(e) => setNewLog({ ...newLog, commit: e.target.value })}
+              className="w-full"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <Label htmlFor="new-parentResourceId" className="mb-1 block">
+              Parent Resource ID
+            </Label>
+            <Input
+              id="new-parentResourceId"
+              placeholder="Enter parent resource ID..."
+              value={newLog.metadata.parentResourceId}
+              onChange={(e) =>
+                setNewLog({
+                  ...newLog,
+                  metadata: {
+                    ...newLog.metadata,
+                    parentResourceId: e.target.value,
+                  },
+                })
+              }
+              className="w-full"
+            />
+          </div>
+          <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 items-center justify-end mt-2">
+            <Button
+              type="submit"
+              disabled={createLoading}
+              className="w-full sm:w-auto"
+            >
+              {createLoading ? "Submitting..." : "Submit Log"}
+            </Button>
+            {createError && (
+              <span className="text-red-500 text-sm">{createError}</span>
+            )}
+          </div>
+        </form>
+      </section>
+
+      {/* Log Filtering Section */}
+      <section className="mb-8 bg-white border border-gray-200 rounded-2xl shadow-sm p-0 overflow-hidden">
+        <div className="p-6 border-b border-gray-100">
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">
+            Filter Logs
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+            <Input
+              placeholder="Search message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full"
+            />
+            <Select value={level} onValueChange={setLevel}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="error">Error</SelectItem>
+                <SelectItem value="warning">Warning</SelectItem>
+                <SelectItem value="info">Info</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Resource ID..."
+              value={resourceId}
+              onChange={(e) => setResourceId(e.target.value)}
+              className="w-full"
+            />
+            <Input
+              type="datetime-local"
+              value={timestampStart}
+              onChange={(e) => setTimestampStart(e.target.value)}
+              className="w-full"
+            />
+            <Input
+              type="datetime-local"
+              value={timestampEnd}
+              onChange={(e) => setTimestampEnd(e.target.value)}
+              className="w-full"
+            />
+            <Button
+              onClick={handleClearFilters}
+              variant="outline"
+              className="w-full"
+            >
+              Clear Filters
+            </Button>
+          </div>
+          {logsLoading && <p className="text-gray-500">Loading...</p>}
+          {logsError && <p className="text-red-500">{logsError}</p>}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="p-4">
+          <DataTable logs={logs} />
+        </div>
+      </section>
     </div>
   );
 }
