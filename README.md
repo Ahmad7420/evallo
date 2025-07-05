@@ -57,7 +57,7 @@ Design Decisions
 
 Node.js/Express with TypeScript: Provides a robust backend with type safety, ensuring reliable API endpoints (POST /logs and GET /logs).
 Next.js App Router: Used for the frontend to enable modern routing and server-side rendering for fast initial loads.
-Shadcn UI with Tailwind CSS: Provides accessible, customizable components for a clean, professional UI, inspired by tools like Grafana Loki.
+Shadcn UI with Tailwind CSS: Provides accessible, customizable components for a clean, professional UI.
 Custom Hooks (useLogs and useCreateLog): Encapsulate API logic for querying and ingesting logs, improving separation of concerns and reusability.
 Nodemon: Added for development to auto-restart the backend on code changes, enhancing productivity.
 TypeScript: Ensures type safety across both frontend and backend, reducing runtime errors.
