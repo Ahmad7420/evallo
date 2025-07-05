@@ -6,13 +6,13 @@ interface ILog extends Log, Document { }
 const LogSchema: Schema = new Schema({
     level: { type: String, required: true },
     message: { type: String, required: true },
-    resourceId: { type: String },
+    resourceId: { type: String, required: true },
     timestamp: { type: String, default: () => new Date().toISOString() },
-    traceId: { type: String },
-    spanId: { type: String },
-    commit: { type: String },
+    traceId: { type: String, required: true },
+    spanId: { type: String, required: true },
+    commit: { type: String, required: true },
     metadata: {
-        parentResourceId: { type: String },
+        parentResourceId: { type: String, required: true },
     },
 });
 
