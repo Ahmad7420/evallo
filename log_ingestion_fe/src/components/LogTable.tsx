@@ -29,7 +29,7 @@ export function DataTable({ logs }: LogTableProps) {
   return (
     <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="bg-gray-100">
           <TableHead>Level</TableHead>
           <TableHead>Message</TableHead>
           <TableHead>Resource ID</TableHead>

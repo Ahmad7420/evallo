@@ -1,5 +1,5 @@
 export interface Log {
-    _id: string;
+    _id?: string;
     level: string;
     message: string;
     resourceId?: string;

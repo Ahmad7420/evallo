@@ -8,9 +8,10 @@ interface Filters {
     resourceId?: string;
     timestampStart?: string;
     timestampEnd?: string;
+    newLog?: Log;
 }
 
-export const useLogs = ({ level, message, resourceId, timestampStart, timestampEnd }: Filters) => {
+export const useLogs = ({ level, message, resourceId, timestampStart, timestampEnd, newLog }: Filters) => {
     const [logs, setLogs] = useState<Log[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -44,6 +45,12 @@ export const useLogs = ({ level, message, resourceId, timestampStart, timestampE
 
         fetchLogs();
     }, [level, message, resourceId, timestampStart, timestampEnd]);
+
+    useEffect(() => {
+        if (newLog) {
+            setLogs((prevLogs) => [...prevLogs, newLog]);
+        }
+    }, [newLog]);
 
     return { logs, loading, error };
 };

@@ -5,6 +5,7 @@ import { Log } from '@/types/log';
 interface CreateLogResponse {
     success: boolean;
     error?: string;
+    data?: Log;
 }
 
 export const useCreateLog = () => {
@@ -26,7 +27,8 @@ export const useCreateLog = () => {
                 throw new Error('Failed to create log');
             }
 
-            return { success: true };
+            const data: Log = await response.json();
+            return { data, success: true };
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'An error occurred';
             setError(errorMessage);
