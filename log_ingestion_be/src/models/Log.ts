@@ -17,3 +17,188 @@ const LogSchema: Schema = new Schema({
 });
 
 export default mongoose.model<ILog>('Log', LogSchema);
+
+
+
+export const sampleLogs = [
+    {
+        "metadata": { "parentResourceId": "abc1" },
+        "_id": "a1f45678d9e10123456789ab",
+        "level": "info",
+        "message": "System started successfully",
+        "resourceId": "res101",
+        "traceId": "trace001",
+        "spanId": "span001",
+        "commit": "commit001",
+        "timestamp": "2025-07-05T10:00:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc2" },
+        "_id": "b2e56789d1f2134567890bcd",
+        "level": "error",
+        "message": "Database connection failed",
+        "resourceId": "res102",
+        "traceId": "trace002",
+        "spanId": "span002",
+        "commit": "commit002",
+        "timestamp": "2025-07-05T10:05:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc3" },
+        "_id": "c3a67890e2f3245678901cde",
+        "level": "warning",
+        "message": "Memory usage high",
+        "resourceId": "res103",
+        "traceId": "trace003",
+        "spanId": "span003",
+        "commit": "commit003",
+        "timestamp": "2025-07-05T10:10:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc4" },
+        "_id": "d4b78901f3g4356789012def",
+        "level": "info",
+        "message": "User logged in",
+        "resourceId": "res104",
+        "traceId": "trace004",
+        "spanId": "span004",
+        "commit": "commit004",
+        "timestamp": "2025-07-05T10:15:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc5" },
+        "_id": "e5c89012g4h5467890123ef0",
+        "level": "error",
+        "message": "Payment gateway timeout",
+        "resourceId": "res105",
+        "traceId": "trace005",
+        "spanId": "span005",
+        "commit": "commit005",
+        "timestamp": "2025-07-05T10:20:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc6" },
+        "_id": "f6d90123h5i6578901234f01",
+        "level": "warning",
+        "message": "API response delayed",
+        "resourceId": "res106",
+        "traceId": "trace006",
+        "spanId": "span006",
+        "commit": "commit006",
+        "timestamp": "2025-07-05T10:25:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc7" },
+        "_id": "g7e01234i6j7689012345f12",
+        "level": "info",
+        "message": "Scheduled task completed",
+        "resourceId": "res107",
+        "traceId": "trace007",
+        "spanId": "span007",
+        "commit": "commit007",
+        "timestamp": "2025-07-05T10:30:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc8" },
+        "_id": "h8f12345j7k8790123456f23",
+        "level": "error",
+        "message": "Unauthorized access attempt",
+        "resourceId": "res108",
+        "traceId": "trace008",
+        "spanId": "span008",
+        "commit": "commit008",
+        "timestamp": "2025-07-05T10:35:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc9" },
+        "_id": "i9g23456k8l9801234567f34",
+        "level": "warning",
+        "message": "Low disk space",
+        "resourceId": "res109",
+        "traceId": "trace009",
+        "spanId": "span009",
+        "commit": "commit009",
+        "timestamp": "2025-07-05T10:40:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc10" },
+        "_id": "j0h34567l9m0912345678f45",
+        "level": "info",
+        "message": "Backup completed",
+        "resourceId": "res110",
+        "traceId": "trace010",
+        "spanId": "span010",
+        "commit": "commit010",
+        "timestamp": "2025-07-05T10:45:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc11" },
+        "_id": "k1i45678m0n1023456789f56",
+        "level": "error",
+        "message": "Cache server down",
+        "resourceId": "res111",
+        "traceId": "trace011",
+        "spanId": "span011",
+        "commit": "commit011",
+        "timestamp": "2025-07-05T10:50:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc12" },
+        "_id": "l2j56789n1o2134567890f67",
+        "level": "warning",
+        "message": "Session expired for user",
+        "resourceId": "res112",
+        "traceId": "trace012",
+        "spanId": "span012",
+        "commit": "commit012",
+        "timestamp": "2025-07-05T10:55:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc13" },
+        "_id": "m3k67890o2p3245678901f78",
+        "level": "info",
+        "message": "New user registered",
+        "resourceId": "res113",
+        "traceId": "trace013",
+        "spanId": "span013",
+        "commit": "commit013",
+        "timestamp": "2025-07-05T11:00:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc14" },
+        "_id": "n4l78901p3q4356789012f89",
+        "level": "error",
+        "message": "File upload failed",
+        "resourceId": "res114",
+        "traceId": "trace014",
+        "spanId": "span014",
+        "commit": "commit014",
+        "timestamp": "2025-07-05T11:05:00.000Z",
+        "__v": 0
+    },
+    {
+        "metadata": { "parentResourceId": "abc15" },
+        "_id": "o5m89012q4r5467890123f90",
+        "level": "warning",
+        "message": "Service latency above threshold",
+        "resourceId": "res115",
+        "traceId": "trace015",
+        "spanId": "span015",
+        "commit": "commit015",
+        "timestamp": "2025-07-05T11:10:00.000Z",
+        "__v": 0
+    }
+]
